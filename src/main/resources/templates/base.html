@@ -88,7 +88,7 @@
 				<!-- Pills content -->
 				<div class="tab-content" id="myTabContent">
 					<div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
-						<form class="login" name="login">
+						<form class="login" name="login"> <!-- th:action="@{/api/public/home}" method="post" -->
 							<div class="text-center mb-3">
 								<p>Sign in with:</p>
 								<button type="button" class="btn text-primary btn-floating mx-1">
@@ -110,13 +110,15 @@
 
 							<!-- Email input -->
 							<div class="form-outline mb-4 form-floating">
-								<input type="email" id="loginName" class="form-control" placeholder="ex@mail.com" />
+								<input type="email" id="loginName" name="username" class="form-control"
+									placeholder="ex@mail.com" />
 								<label class="form-label" for="loginName">Email</label>
 							</div>
 
 							<!-- Password input -->
 							<div class="form-outline mb-4 form-floating">
-								<input type="password" id="loginPassword" class="form-control" placeholder="Password" />
+								<input type="password" id="loginPassword" name="password" class="form-control"
+									placeholder="Password" />
 								<label class="form-label" for="loginPassword">Password</label>
 							</div>
 
@@ -137,6 +139,13 @@
 								</div>
 							</div>
 
+							<div th:if="${param.error}" class="alert alert-danger text-center">
+								Invalid username or password
+							</div>
+							<div th:if="${param.logout}" class="alert alert-success text-center">
+								Logged Out Succesfully
+							</div>
+
 							<div class="text-center">
 								<!-- Submit button -->
 								<button type="submit" class="btn text-white bg-primary btn-block mb-4">Sign in</button>
@@ -144,8 +153,7 @@
 						</form>
 					</div>
 					<div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-						<form th:action="@{/register}" method="post" th:object="${user}" class="register"
-							name="register">
+						<form action="#" method="post" th:object="${user}" class="register" name="register">
 							<div class="text-center mb-3">
 								<p>Sign up with:</p>
 								<button type="button" class="btn text-primary btn-floating mx-1">
@@ -231,7 +239,7 @@
 			</div>
 			<!-- authentication div -->
 			<!-- loading -->
-			<div class="text-center">
+			<div class="text-center mt-5">
 				<div class="spinner-grow my-5 text-primary hidden" role="status">
 					<span class="visually-hidden">Loading...</span>
 				</div>
@@ -239,6 +247,17 @@
 
 		</div>
 	</div>
+
+	<!-- Button trigger modal -->
+	<div th:if="${param.error!=null OR param.logout!=null}">
+		<div th:if="${param.error}" class="alert alert-danger text-center">
+			Invalid username or password
+		</div>
+		<div th:if="${param.logout}" class="alert alert-success text-center">
+			Logged Out Succesfully
+		</div>
+	</div>
+
 
 	<div th:replace="${content}"></div>
 

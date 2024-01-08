@@ -12,15 +12,18 @@ async function register(e) {
 	};
 	const repeatPassoword = this.repeatPassword.value;
 	const agreement = this.agreement.value;
+	removeValidation();
 	document.querySelector('.authentication').style.display = 'none';
+	document.querySelector('.register-alert').style.display = 'none';
 	document.querySelector('.spinner-grow').classList.remove('hidden');
-	const response = await fetch('/register?repeatPassword=' + repeatPassoword + '&agreement=' + agreement, {
+	const response = await fetch('/api/public/register?repeatPassword=' + repeatPassoword + '&agreement=' + agreement, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
 		body: JSON.stringify(data)
 	}).then(res => { return res });
+	console.log(response);
 	const message = await response.json();
 
 
@@ -31,11 +34,11 @@ async function register(e) {
 
 
 
-	if (response.status === 200) {
+	if (response.status >=301 || response.status <= 399) {
 		document.querySelector('.register-alert').style.display = 'block';
 		document.querySelector('.register-alert').classList.add('alert-success');
-		document.querySelector('.register-alert').textContent = message[0].content;
-		window.location='/';
+		document.querySelector('.register-alert').textContent = "Registered Succesfully :)";
+		setTimeout( () => {location.href=message[0].content}, 1000 );
 	} else if (response.status === 416) {
 		document.querySelector('.register-alert').style.display = 'block';
 		document.querySelector('.register-alert').classList.add('alert-warning');
@@ -52,13 +55,15 @@ async function register(e) {
 	}
 }
 
+
 async function login(e) {
 	e.preventDefault();
 	const data = {
-		email: this.email.value,
+		username: this.username.value,
 		password: this.password.value,
 	};
-	const response = await fetch('/login', {
+	console.log(data);
+	const response = await fetch(`/login?username=${data.username}&password=${data.password}`, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -66,7 +71,12 @@ async function login(e) {
 		body: JSON.stringify(data)
 	}).then(res => { return res });
 	
-	const message= await response.json();
+	console.log(response);
+	const message= await response.text();
+	//console.log(message);
+	
+	location.href=response.url;
+	/*document.body.innerHTML=message;*/
 }
 
 function removeValidation() {

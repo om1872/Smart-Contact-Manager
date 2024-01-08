@@ -34,7 +34,7 @@ public class User {
 	private String email;
 	@NotNull(message = "Password can't be null")
 	@NotBlank(message="Please provide a password")
-	@Size(min=8, max=20, message = "Password should be in between 8 to 20 characters")
+	@Size(min=8, message = "Password should be of minimum 8 characters")
 	private String password;
 	private String role;
 	private boolean enabled;
