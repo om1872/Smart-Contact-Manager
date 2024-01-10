@@ -49,6 +49,7 @@ public class SecurityConfig {
 				login.loginPage("/api/public/home")
 				.loginProcessingUrl("/login")
 				.defaultSuccessUrl("/api/user/index")
+				.failureUrl("/api/public/login_fail")
 				.permitAll();
 			});
 

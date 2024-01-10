@@ -34,11 +34,11 @@ async function register(e) {
 
 
 
-	if (response.status >=301 || response.status <= 399) {
+	if (response.status >= 301 || response.status <= 399) {
 		document.querySelector('.register-alert').style.display = 'block';
 		document.querySelector('.register-alert').classList.add('alert-success');
 		document.querySelector('.register-alert').textContent = "Registered Succesfully :)";
-		setTimeout( () => {location.href=message[0].content}, 1000 );
+		setTimeout(() => { location.href = message[0].content }, 1000);
 	} else if (response.status === 416) {
 		document.querySelector('.register-alert').style.display = 'block';
 		document.querySelector('.register-alert').classList.add('alert-warning');
@@ -62,7 +62,11 @@ async function login(e) {
 		username: this.username.value,
 		password: this.password.value,
 	};
-	console.log(data);
+	document.querySelector("#login_fail").style.display = "none";
+	document.querySelector("#login_fail").innerHTML = "";
+	document.querySelector('.spinner-grow').classList.remove('hidden');
+	document.querySelector('.authentication').style.display = 'none';
+	document.querySelector("#login_success").style.display='none';
 	const response = await fetch(`/login?username=${data.username}&password=${data.password}`, {
 		method: "POST",
 		headers: {
@@ -70,20 +74,30 @@ async function login(e) {
 		},
 		body: JSON.stringify(data)
 	}).then(res => { return res });
-	
-	console.log(response);
-	const message= await response.text();
-	//console.log(message);
-	
-	location.href=response.url;
-	/*document.body.innerHTML=message;*/
+
+	const message = await response.text();
+	setTimeout(() => {
+		document.querySelector('.authentication').style.display = 'block';
+		document.querySelector('.spinner-grow').classList.add('hidden');
+	}, 1500);
+
+	if (response.status === 200) {
+		document.querySelector("#login_success").style.display = "block";
+		setTimeout(() => {
+			location.href = response.url;
+		}, 1000);
+	} else if (response.status === 401) {
+		document.querySelector("#login_fail").style.display = "block";
+		document.querySelector("#login_fail").innerHTML = message;
+	}
+
 }
 
 function removeValidation() {
 	const attr = ['name', 'email', 'password', 'about'];
 	attr.forEach(attr => {
 		document.forms['register'][attr].classList.remove('is-invalid');
-		document.querySelector('#invalid-'+attr).innerHTML = '';
+		document.querySelector('#invalid-' + attr).innerHTML = '';
 	})
 }
 

@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/api/public")
-public class AuthController {
+public class AuthController{
 
 	@Autowired
 	UserRepository userRepository;
@@ -115,4 +115,10 @@ public class AuthController {
 		}
 		return new ResponseEntity<List<Message>>(new ArrayList<Message>(),HttpStatus.ACCEPTED);
 	} */
+	
+	@GetMapping("/login_fail")
+	public String loginFail(HttpServletResponse response) {
+		response.setStatus(401);
+		return "login_fail";
+	}
 }

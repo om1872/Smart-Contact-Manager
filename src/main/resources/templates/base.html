@@ -21,6 +21,27 @@
 
 <body>
 
+
+
+
+	<div th:if="${param.logout}">
+		<div class="modal" tabindex="-1" id="myModal">
+			<div class="modal-dialog">
+				<div class="modal-content alert alert-success">
+					<div class="modal-header">
+						<div class="text-primary">Smart Contact Manager</div>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body text-center">
+						Logged Out Succesfully <i class="fa-solid fa-circle-check"></i>
+					</div>
+					<div class="modal-footer text-primary  mx-auto">
+						To Login Again Click on Login/SignUp Option
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-dark  bg-primary">
 		<div class="container-fluid">
@@ -68,7 +89,7 @@
 			<h5 class="offcanvas-title" id="offcanvasRightLabel">Login/Register</h5>
 			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
-		<div class="offcanvas-body" style="min-height: 93vh;">
+		<div class="offcanvas-body d-flex flex-column" style="min-height: 93vh;">
 			<div class="authentication">
 
 				<!-- Pills navs -->
@@ -139,11 +160,8 @@
 								</div>
 							</div>
 
-							<div th:if="${param.error}" class="alert alert-danger text-center">
+							<div style="display: none;" id="login_fail" class="alert alert-danger text-center">
 								Invalid username or password
-							</div>
-							<div th:if="${param.logout}" class="alert alert-success text-center">
-								Logged Out Succesfully
 							</div>
 
 							<div class="text-center">
@@ -239,22 +257,16 @@
 			</div>
 			<!-- authentication div -->
 			<!-- loading -->
-			<div class="text-center mt-5">
-				<div class="spinner-grow my-5 text-primary hidden" role="status">
+			<div class="text-center d-flex align-items-center justify-content-center" style="flex:1;">
+				<div class="spinner-grow text-primary hidden" role="status" >
 					<span class="visually-hidden">Loading...</span>
 				</div>
 			</div>
+			
+			<div class="hidden" id="login_success">
+				
+			</div>
 
-		</div>
-	</div>
-
-	<!-- Button trigger modal -->
-	<div th:if="${param.error!=null OR param.logout!=null}">
-		<div th:if="${param.error}" class="alert alert-danger text-center">
-			Invalid username or password
-		</div>
-		<div th:if="${param.logout}" class="alert alert-success text-center">
-			Logged Out Succesfully
 		</div>
 	</div>
 
@@ -264,6 +276,7 @@
 
 
 	<!-- Bootstrap Bundeled JS -->
+	<script src="/js/jquery-3.7.1.min.js"></script>
 	<script src="/js/bootstrap/bootstrap.bundle.js"></script>
 	<script src="/js/script.js"></script>
 	<script src="/js/register.js"></script>

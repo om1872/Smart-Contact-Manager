@@ -13,6 +13,7 @@ public class CustomUserDetails implements UserDetails {
 
 	private User user;
 	
+	
 	public CustomUserDetails(User user) {
 		super();
 		this.user = user;
@@ -24,6 +25,14 @@ public class CustomUserDetails implements UserDetails {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public String getFullName() {
+		return this.user.getName();
+	}
+
+	public Integer getUserId() {
+		return this.user.getId();
 	}
 
 	@Override

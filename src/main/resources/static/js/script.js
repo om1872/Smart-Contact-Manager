@@ -1,5 +1,7 @@
 console.log('hi from script .js ')
 
-/*$('#myModal').on('shown.bs.modal', function () {
-  $('#myInput').trigger('focus')
-})*/
+const myModal = document.getElementById('myModal')
+
+$(document).ready(function() {
+	$("#myModal").modal('show');
+});
